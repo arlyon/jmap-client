@@ -69,7 +69,7 @@ pub struct EmailImportResponse {
     old_state: Option<String>,
 
     #[serde(rename = "newState")]
-    new_state: String,
+    new_state: Option<String>,
 
     #[serde(rename = "created")]
     created: Option<AHashMap<String, Email>>,
@@ -164,12 +164,8 @@ impl EmailImportResponse {
         self.old_state.as_deref()
     }
 
-    pub fn new_state(&self) -> &str {
-        &self.new_state
-    }
-
-    pub fn take_new_state(&mut self) -> String {
-        std::mem::take(&mut self.new_state)
+    pub fn new_state(&self) -> Option<&str> {
+        self.new_state.as_deref()
     }
 
     pub fn created(&mut self, id: &str) -> crate::Result<Email> {
